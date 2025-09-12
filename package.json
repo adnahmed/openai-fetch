@@ -1,13 +1,13 @@
 {
   "name": "openai-fetch",
   "version": "3.4.2",
-  "description": "OpenAI client powered by fetch",
-  "repository": "dexaai/openai-fetch",
+  "description": "OpenAI client powered by fetch (compatible with CommonJS)",
+  "repository": "adnahmed/openai-fetch",
   "license": "MIT",
   "author": {
-    "name": "Riley Tomasek",
-    "email": "hi@rile.yt",
-    "url": "https://rile.yt"
+    "name": "Adnan Ahmed Khan",
+    "email": "khanadnanahmed01@gmail.com",
+    "url": "http://github.com/adnahmed"
   },
   "packageManager": "pnpm@9.12.1",
   "engines": {
@@ -48,6 +48,7 @@
     "test": "pnpm run lint && pnpm run typecheck",
     "typecheck": "tsc --noEmit"
   },
+
   "dependencies": {
     "ky": "^1.7.4"
   },

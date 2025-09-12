@@ -6,17 +6,16 @@ A minimal and opinionated OpenAI client powered by fetch.
 
 Unfortunately, the official [openai](https://github.com/openai/openai-node) package patches fetch in problematic ways and is quite bloated.
 
-### Reasons to consider using `openai-fetch`:
+### Reasons to consider using `openai-fetch`
 
 - You want a fast and small client that doesn't patch fetch
 - Supports all envs with native fetch: Node 18+, browsers, Deno, Cloudflare Workers, etc
 - Package size: `openai-fetch` is [~14kb](https://bundlephobia.com/package/openai-fetch) and `openai` is [~152kb](https://bundlephobia.com/package/openai)
 - You only need chat, completions, embeddings, and moderations, and TTS
 
-### Use the official `openai` package if:
+### Use the official `openai` package if
 
 - Your runtime doesn't have native fetch support
-- Your app can't handle native ESM code
 - You need endpoints other than chat, completions, embeddings, and moderations, and TTS
 - You aren't concerned with lib size or fetch patching
 
@@ -27,8 +26,6 @@ npm install openai-fetch
 ```
 
 This package requires `node >= 18` or an environment with `fetch` support.
-
-This package exports [ESM](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c). If your project uses CommonJS, consider switching to ESM or use the [dynamic `import()`](https://v8.dev/features/dynamic-import) function.
 
 ## Usage
 
