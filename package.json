@@ -1,6 +1,5 @@
 {
   "name": "openai-fetch",
-  "type": "module",
   "version": "3.4.2",
   "description": "OpenAI client powered by fetch",
   "repository": "dexaai/openai-fetch",
@@ -17,19 +16,23 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
     },
     "./package.json": "./package.json"
   },
   "types": "dist/index.d.ts",
-  "main": "dist/index.js",
+  "main": "dist/cjs/index.js",
   "sideEffects": false,
   "files": [
     "dist",
     "openai-types"
   ],
   "scripts": {
-    "build": "tsc --project tsconfig.dist.json",
+    "build": "pnpm run build:esm && pnpm run build:cjs && pnpm run copy-types",
+    "build:esm": "tsc --project tsconfig.esm.json",
+    "build:cjs": "tsc --project tsconfig.cjs.json && node scripts/fix-cjs-imports.js && node -e \"require('fs').writeFileSync('dist/cjs/package.json', JSON.stringify({type: 'commonjs'}, null, 2))\"",
+    "copy-types": "node -e \"const fs = require('fs'); const path = require('path'); fs.readdirSync('dist/esm').filter(f => f.endsWith('.d.ts')).forEach(f => fs.copyFileSync(path.join('dist/esm', f), path.join('dist', f)))\"",
     "clean": "rimraf dist openai-types node_modules",
     "clean:build": "rimraf dist openai-types",
     "dev": "tsc --watch",
