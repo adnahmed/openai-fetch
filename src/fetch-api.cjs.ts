@@ -51,7 +51,35 @@ export function createApiInstance(args: {
     hooks?: any;
   };
 
+  // Ensure hooks containers exist so we can safely push our handlers
+  if (!hooks.beforeRequest) hooks.beforeRequest = [];
   if (!hooks.beforeError) hooks.beforeError = [];
+
+  // Always ensure auth/org headers are present before the request is sent.
+  // This prevents accidental removal when callers pass custom kyOptions.headers.
+  // Prepend so our injector runs before any user-provided beforeRequest hooks
+  hooks.beforeRequest.unshift((request: Request) => {
+    try {
+      const hdrs = request.headers;
+      const auth = hdrs.get('authorization') || hdrs.get('Authorization');
+      const xApiKey = hdrs.get('x-api-key') || hdrs.get('X-API-Key');
+      const hasValidAuth = !!auth && !/\b(undefined|null)\b/i.test(auth);
+      const hasApiKeyHeader = !!xApiKey && !/\b(undefined|null)\b/i.test(xApiKey);
+
+      // Inject Authorization if missing/invalid and we have an apiKey
+      if (!hasValidAuth && !hasApiKeyHeader && apiKey) {
+        hdrs.set('Authorization', `Bearer ${apiKey}`);
+      }
+
+      // Ensure organization header if provided in config and missing
+      if (organizationId && !hdrs.get('OpenAI-Organization')) {
+        hdrs.set('OpenAI-Organization', organizationId);
+      }
+    } catch {
+      // no-op: never let header injection throw
+    }
+  });
+
   hooks.beforeError.push(async (error: any) => {
     const response: Response | undefined = error?.response;
     if (response) {
@@ -76,7 +104,7 @@ export function createApiInstance(args: {
     prefixUrl: baseUrl || prefixUrl || DEFAULT_BASE_URL,
     headers: {
       'User-Agent': 'openai-fetch',
-      ...(apiKey && { Authorization: `Bearer ${apiKey}` }),
+      // Base defaults; final auth/org are guaranteed by beforeRequest hook above
       ...(organizationId && { 'OpenAI-Organization': organizationId }),
       ...headers,
     },
