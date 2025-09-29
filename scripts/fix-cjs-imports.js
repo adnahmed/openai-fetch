@@ -27,9 +27,9 @@ function processDirectory(dirPath) {
   }
 }
 
-// Process the CommonJS build directory
-const cjsDir = path.join(process.cwd(), 'dist', 'cjs');
-if (fs.existsSync(cjsDir)) {
-  processDirectory(cjsDir);
-  console.log('Fixed CommonJS imports by removing .js extensions');
+// Process the CommonJS build directory (now dist root)
+const distDir = path.join(process.cwd(), 'dist');
+if (fs.existsSync(distDir)) {
+  processDirectory(distDir);
+  console.log('Fixed CommonJS imports in dist by removing .js extensions');
 }

@@ -7,9 +7,15 @@
         "sourceMap": true,
         "inlineSources": true,
         "rootDir": "./src",
-        "outDir": "./dist/cjs",
+    "outDir": "./dist",
         "esModuleInterop": true,
-        "allowSyntheticDefaultImports": true
+        "allowSyntheticDefaultImports": true,
+        "baseUrl": "./src",
+        "paths": {
+            "fetch-api.js": [
+                "./fetch-api.cjs.ts"
+            ]
+        }
     },
     "include": [
         "src"

@@ -8,8 +8,7 @@
         "inlineSources": true,
         "rootDir": "./src",
         "outDir": "./dist/esm",
-        "allowImportingTsExtensions": false,
-        "noEmit": false
+    "noEmit": false
     },
     "include": [
         "src"

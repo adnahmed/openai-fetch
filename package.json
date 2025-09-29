@@ -1,5 +1,5 @@
 {
-  "name": "openai-fetch",
+  "name": "openai-fetch-commonjs",
   "version": "3.4.2",
   "description": "OpenAI client powered by fetch (compatible with CommonJS)",
   "repository": "adnahmed/openai-fetch",
@@ -13,26 +13,23 @@
   "engines": {
     "node": ">=18"
   },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.js"
+      "require": "./dist/index.js"
     },
     "./package.json": "./package.json"
   },
-  "types": "dist/index.d.ts",
-  "main": "dist/cjs/index.js",
   "sideEffects": false,
   "files": [
     "dist",
     "openai-types"
   ],
   "scripts": {
-    "build": "pnpm run build:esm && pnpm run build:cjs && pnpm run copy-types",
-    "build:esm": "tsc --project tsconfig.esm.json",
-    "build:cjs": "tsc --project tsconfig.cjs.json && node scripts/fix-cjs-imports.js && node -e \"require('fs').writeFileSync('dist/cjs/package.json', JSON.stringify({type: 'commonjs'}, null, 2))\"",
-    "copy-types": "node -e \"const fs = require('fs'); const path = require('path'); fs.readdirSync('dist/esm').filter(f => f.endsWith('.d.ts')).forEach(f => fs.copyFileSync(path.join('dist/esm', f), path.join('dist', f)))\"",
+  "build": "pnpm run build:cjs",
+  "build:cjs": "tsc --project tsconfig.cjs.json",
     "clean": "rimraf dist openai-types node_modules",
     "clean:build": "rimraf dist openai-types",
     "dev": "tsc --watch",
@@ -48,12 +45,12 @@
     "test": "pnpm run lint && pnpm run typecheck",
     "typecheck": "tsc --noEmit"
   },
-
   "dependencies": {
-    "ky": "^1.7.4"
+    "@toss/ky": "^1.2.1"
   },
   "devDependencies": {
     "@dexaai/eslint-config": "^1.3.6",
+    "@types/node": "^24.3.1",
     "eslint": "^8.57.0",
     "np": "^10.1.0",
     "openai": "^4.77.0",

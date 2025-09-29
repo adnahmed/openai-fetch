@@ -29,4 +29,6 @@ export type {
   EmbeddingResponse,
   SpeechParams,
   SpeechResponse,
+  TranscriptionParams,
+  TranscriptionResponse,
 } from './types.js';

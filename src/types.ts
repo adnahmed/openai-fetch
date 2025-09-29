@@ -95,3 +95,14 @@ export type ModerationResponse = OpenAI.ModerationCreateResponse;
 
 export type SpeechParams = OpenAI.Audio.SpeechCreateParams;
 export type SpeechResponse = ArrayBuffer;
+
+// Audio Transcriptions
+export type TranscriptionParams<
+  F extends OpenAI.Audio.AudioResponseFormat | undefined =
+    | OpenAI.Audio.AudioResponseFormat
+    | undefined,
+> = OpenAI.Audio.TranscriptionCreateParams<F>;
+// For non-JSON formats (text/srt/vtt), the API returns a string
+export type TranscriptionResponse =
+  | OpenAI.Audio.TranscriptionCreateResponse
+  | string;

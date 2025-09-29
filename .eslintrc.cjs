@@ -7,5 +7,9 @@ module.exports = {
     'no-process-env': 'off',
     'no-console': 'off',
     'prefer-const': 'off',
+    '@typescript-eslint/no-require-imports': 'off',
+    'no-use-before-define': 'off',
+    '@typescript-eslint/no-unused-vars': 'off',
+    'no-return-await': 'off',
   },
 };
